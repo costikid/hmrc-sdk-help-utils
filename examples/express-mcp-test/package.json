@@ -2,6 +2,7 @@
   "name": "express-mcp-test",
   "private": true,
   "type": "module",
+  "packageManager": "pnpm@latest",
   "scripts": {
     "dev": "node server.mjs",
     "start": "node server.mjs"
