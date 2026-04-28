@@ -1,0 +1,30 @@
+{
+  "name": "@hmrc-sync/collector",
+  "version": "1.0.0",
+  "description": "Client-side data collection for HMRC Fraud Prevention Headers",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.6.0",
+    "vitest": "^2.1.0"
+  },
+  "optionalDependencies": {
+    "node-macaddress": "^2.1.1"
+  },
+  "files": [
+    "dist"
+  ]
+}

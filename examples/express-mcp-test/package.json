@@ -1,0 +1,12 @@
+{
+  "name": "express-mcp-test",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node server.mjs"
+  },
+  "dependencies": {
+    "@hmrc-sync/agent-skill": "workspace:*",
+    "express": "^4.21.2"
+  }
+}

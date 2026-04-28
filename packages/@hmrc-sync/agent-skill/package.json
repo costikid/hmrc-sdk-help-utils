@@ -1,0 +1,44 @@
+{
+  "name": "@hmrc-sync/agent-skill",
+  "version": "1.0.0",
+  "description": "MCP-first AI agent skill for HMRC fraud prevention header workflows",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "bin": {
+    "hmrc-agent-skill-mcp": "./dist/mcp/cli.js"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./mcp": {
+      "types": "./dist/mcp/server.d.ts",
+      "import": "./dist/mcp/server.js"
+    },
+    "./mcp/stdio": {
+      "types": "./dist/mcp/stdio.d.ts",
+      "import": "./dist/mcp/stdio.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest",
+    "mcp:stdio": "node ./dist/mcp/cli.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.17.0",
+    "@hmrc-sync/collector": "workspace:*",
+    "@hmrc-sync/engine": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.6.0",
+    "vitest": "^2.1.0"
+  },
+  "files": [
+    "dist"
+  ]
+}
