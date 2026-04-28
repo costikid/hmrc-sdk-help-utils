@@ -121,7 +121,7 @@ function generateWebAppViaServerHeaders(input: EngineInput, headers: Record<stri
   // Vendor Forwarded
   if (viaServerInput.serverIP) {
     headers['Gov-Vendor-Forwarded'] = formatVendorForwarded([
-      { by: viaServerInput.serverIP, for: clientData.localIPs[0] || '' }
+      { by: viaServerInput.serverIP, for: clientData.localIPs?.[0] || '' }
     ])
   }
 
@@ -271,7 +271,7 @@ function generateDesktopAppViaServerHeaders(input: EngineInput, headers: Record<
   // Vendor Forwarded
   if (viaServerInput.serverIP) {
     headers['Gov-Vendor-Forwarded'] = formatVendorForwarded([
-      { by: viaServerInput.serverIP, for: clientData.localIPs[0] || '' }
+      { by: viaServerInput.serverIP, for: clientData.localIPs?.[0] || '' }
     ])
   }
 
@@ -395,7 +395,7 @@ function generateMobileAppViaServerHeaders(input: EngineInput, headers: Record<s
   // Vendor Forwarded
   if (viaServerInput.serverIP) {
     headers['Gov-Vendor-Forwarded'] = formatVendorForwarded([
-      { by: viaServerInput.serverIP, for: clientData.localIPs[0] || '' }
+      { by: viaServerInput.serverIP, for: clientData.localIPs?.[0] || '' }
     ])
   }
 
