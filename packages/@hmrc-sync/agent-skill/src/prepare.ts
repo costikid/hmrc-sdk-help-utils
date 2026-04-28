@@ -10,11 +10,17 @@ function toEngineInput(input: PrepareHmrcRequestInput): EngineInput {
     case ConnectionMethod.WEB_APP_VIA_SERVER:
     case ConnectionMethod.DESKTOP_APP_VIA_SERVER:
     case ConnectionMethod.MOBILE_APP_VIA_SERVER:
+      if (!input.serverIP || typeof input.serverIP !== 'string' || input.serverIP.trim() === '') {
+        throw new Error(`${method} requires a valid serverIP`)
+      }
+      if (typeof input.serverPort !== 'number' || Number.isNaN(input.serverPort)) {
+        throw new Error(`${method} requires a valid serverPort (number)`)
+      }
       return {
         method,
         clientData,
-        serverIP: input.serverIP as string,
-        serverPort: input.serverPort as number,
+        serverIP: input.serverIP,
+        serverPort: input.serverPort,
         vendorConfig
       }
 
