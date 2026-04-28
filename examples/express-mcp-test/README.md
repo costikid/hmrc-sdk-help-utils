@@ -68,7 +68,7 @@ curl -X POST http://localhost:3001/v1/mcp/execute \
       "method": "WEB_APP_VIA_SERVER",
       "headers": {
         "Gov-Client-Connection-Method": "WEB_APP_VIA_SERVER",
-        "Gov-Client-Timezone": "INVALID"
+        "Gov-Client-Timezone": "UTC+00:00"
       }
     }
   }'
@@ -86,7 +86,7 @@ curl -X POST http://localhost:3001/v1/mcp/execute \
       "method": "WEB_APP_VIA_SERVER",
       "headers": {
         "Gov-Client-Connection-Method": "WEB_APP_VIA_SERVER",
-        "Gov-Client-Timezone": "INVALID"
+        "Gov-Client-Timezone": "UTC+00:00"
       }
     }
   }'
@@ -96,5 +96,6 @@ curl -X POST http://localhost:3001/v1/mcp/execute \
 
 - Deploy this service to Railway and expose HTTPS at the public Railway URL.
 - Railway handles TLS termination, so clients should call `https://<your-railway-domain>/v1/mcp/tools` and `https://<your-railway-domain>/v1/mcp/execute`.
+- Find your Railway domain in the Railway dashboard under your service's "Domains" tab.
 - Configure all environment variables in Railway service settings.
-- For long-term production scale, replace in-memory limiter with Redis-backed rate limits.
+- For long-term production scale, replace in-memory limiter with Redis-backed rate limits using a library like `rate-limit-redis`.

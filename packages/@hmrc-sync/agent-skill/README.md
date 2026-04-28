@@ -28,12 +28,16 @@ pnpm add @hmrc-sync/agent-skill
 
 ```ts
 import { prepareHmrcRequest, ConnectionMethod } from '@hmrc-sync/agent-skill'
+import { collectBrowserData } from '@hmrc-sync/collector'
+
+// Collect client data from browser
+const clientData = await collectBrowserData()
 
 const result = prepareHmrcRequest({
   method: ConnectionMethod.WEB_APP_VIA_SERVER,
   clientData,
-  serverIP: '203.0.113.6',
-  serverPort: 8443,
+  serverIP: '203.0.113.6', // Your server's public IP
+  serverPort: 8443, // Your server's port
   vendorConfig: {
     productName: 'MyTaxProduct',
     version: { MyTaxProduct: '1.0.0' }
@@ -64,17 +68,19 @@ Use `createHmrcMcpServer()` to expose tool definitions and an `executeTool(...)`
 
 This package also provides a real MCP stdio transport server for MCP-native clients like Cursor, Windsurf, or Claude Desktop.
 
-Run it directly:
+**Note:** The stdio server requires the package to be built first.
+
+**In a monorepo (this repo):**
 
 ```bash
 pnpm --filter @hmrc-sync/agent-skill build
 pnpm --filter @hmrc-sync/agent-skill mcp:stdio
 ```
 
-Or via binary after install:
+**After npm install (standalone):**
 
 ```bash
-hmrc-agent-skill-mcp
+npx hmrc-agent-skill-mcp
 ```
 
 Programmatic start:
@@ -91,13 +97,17 @@ await startHmrcMcpStdioServer()
 
 ### API endpoint
 
+The hosted HTTP API is available at:
+
 ```
 https://hmrc-sdk-help-utils-production.up.railway.app
 ```
 
+*Note: Replace with your own Railway deployment URL if hosting your own instance.*
+
 ### Authentication
 
-Include your API key in the request header:
+To use the HTTP API, you need an API key. Contact the service administrator to obtain your API key, then include it in the request header:
 
 ```
 x-api-key: YOUR_API_KEY
