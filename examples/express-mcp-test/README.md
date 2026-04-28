@@ -35,14 +35,16 @@ Server starts on `http://localhost:3001` locally.
 ```bash
 PORT=3001
 AUTH_MODE=api_key
-MCP_API_KEYS=dev-key-1,dev-key-2
-OAUTH_BEARER_TOKENS=oauth-token-1,oauth-token-2
+MCP_API_KEYS=your-api-key-1,your-api-key-2
+OAUTH_BEARER_TOKENS=your-oauth-token-1,your-oauth-token-2
 REQUEST_SIZE_LIMIT=100kb
 RATE_LIMIT_WINDOW_MS=60000
 RATE_LIMIT_MAX_REQUESTS=60
 SLOW_REQUEST_THRESHOLD_MS=1500
 TENANT_POLICIES_JSON={"default":{"allowedTools":["hmrc.validate_headers"],"strictGuardrails":false}}
 ```
+
+**Note:** Replace `your-api-key-*` and `your-oauth-token-*` with your actual values. Never commit real API keys or tokens to version control.
 
 `AUTH_MODE` values:
 
