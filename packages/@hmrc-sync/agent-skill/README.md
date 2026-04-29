@@ -2,6 +2,57 @@
 
 HMRC Fraud Prevention Headers SDK and API for generating, validating, and submitting HMRC-compliant headers.
 
+## Quick start
+
+```bash
+npm install @hmrc-sync/agent-skill
+```
+
+```ts
+import { prepareHmrcRequest, ConnectionMethod } from '@hmrc-sync/agent-skill'
+
+const result = prepareHmrcRequest({
+  method: ConnectionMethod.WEB_APP_VIA_SERVER,
+  clientData: {
+    userAgent: 'Mozilla/5.0',
+    browserJsUserAgent: 'Mozilla/5.0',
+    timezone: 'UTC+00:00',
+    localIPs: ['192.168.1.10'],
+    publicIP: '203.0.113.10',
+    macAddresses: ['00:11:22:33:44:55'],
+    deviceId: '550e8400-e29b-41d4-a716-446655440000'
+  },
+  serverIP: '203.0.113.6',
+  serverPort: 8443,
+  vendorConfig: {
+    productName: 'MyTaxProduct',
+    version: { MyTaxProduct: '1.0.0' }
+  },
+  requestMeta: {
+    executionContext: 'backend',
+    submissionTarget: 'hmrc',
+    integrationType: 'web'
+  },
+  explainMode: true
+})
+
+console.log(result.headers)
+console.log(result.validation)
+```
+
+## When to use this package vs engine/collector
+
+**Use `@hmrc-sync/agent-skill` when:**
+- You want a simple one-function API (`prepareHmrcRequest`) that handles the entire workflow
+- You need built-in guardrails and policy enforcement
+- You're integrating with AI agents or MCP-native clients
+- You want human-readable validation explanations
+
+**Use `@hmrc-sync/engine` + `@hmrc-sync/collector` when:**
+- You need fine-grained control over each step
+- You want to collect client data separately from header generation
+- You're building custom orchestration logic
+
 ## Two ways to use this library
 
 **1. SDK (embed in your codebase)**
@@ -28,10 +79,18 @@ pnpm add @hmrc-sync/agent-skill
 
 ```ts
 import { prepareHmrcRequest, ConnectionMethod } from '@hmrc-sync/agent-skill'
-import { collectBrowserData } from '@hmrc-sync/collector'
 
-// Collect client data from browser
-const clientData = await collectBrowserData()
+// In production, collect client data using @hmrc-sync/collector
+// For this example, we provide mock data
+const clientData = {
+  userAgent: 'Mozilla/5.0',
+  browserJsUserAgent: 'Mozilla/5.0',
+  timezone: 'UTC+00:00',
+  localIPs: ['192.168.1.10'],
+  publicIP: '203.0.113.10',
+  macAddresses: ['00:11:22:33:44:55'],
+  deviceId: '550e8400-e29b-41d4-a716-446655440000'
+}
 
 const result = prepareHmrcRequest({
   method: ConnectionMethod.WEB_APP_VIA_SERVER,
@@ -97,13 +156,13 @@ await startHmrcMcpStdioServer()
 
 ### API endpoint
 
-The hosted HTTP API is available at:
+Deploy the HTTP API to your own infrastructure (Railway, Vercel, or any Node.js hosting).
 
-```
-https://hmrc-sdk-help-utils-production.up.railway.app
-```
+Set the `API_URL` environment variable to your deployment URL:
 
-*Note: Replace with your own Railway deployment URL if hosting your own instance.*
+```bash
+API_URL=https://your-deployment-url.com
+```
 
 ### Authentication
 
@@ -124,13 +183,13 @@ Authorization: Bearer YOUR_TOKEN
 #### Get available tools
 
 ```bash
-curl https://hmrc-sdk-help-utils-production.up.railway.app/v1/mcp/tools
+curl $API_URL/v1/mcp/tools
 ```
 
 #### Execute a tool
 
 ```bash
-curl -X POST https://hmrc-sdk-help-utils-production.up.railway.app/v1/mcp/execute \
+curl -X POST $API_URL/v1/mcp/execute \
   -H "Content-Type: application/json" \
   -H "x-api-key: YOUR_API_KEY" \
   -d '{
@@ -148,8 +207,8 @@ curl -X POST https://hmrc-sdk-help-utils-production.up.railway.app/v1/mcp/execut
 ### Example integration (JavaScript)
 
 ```javascript
-const API_URL = 'https://hmrc-sdk-help-utils-production.up.railway.app'
-const API_KEY = 'your-api-key'
+const API_URL = process.env.API_URL || 'http://localhost:3001'
+const API_KEY = process.env.API_KEY || 'your-api-key'
 
 async function validateHeaders(headers) {
   const response = await fetch(`${API_URL}/v1/mcp/execute`, {

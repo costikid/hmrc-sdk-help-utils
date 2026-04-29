@@ -1,6 +1,8 @@
-# Express MCP Test Backend
+# Express MCP Server (Reference Implementation)
 
 Express backend to expose `@hmrc-sync/agent-skill` tools over HTTP with production-shaped controls.
+
+This is a reference implementation showing how to host the agent-skill package as an HTTP API with authentication, rate limiting, and audit logging.
 
 ## Run
 
@@ -8,7 +10,7 @@ From repository root:
 
 ```bash
 pnpm install
-pnpm --filter express-mcp-test dev
+pnpm --filter express-mcp-server dev
 ```
 
 Server starts on `http://localhost:3001` locally.
@@ -94,10 +96,18 @@ curl -X POST http://localhost:3001/v1/mcp/execute \
   }'
 ```
 
-## Railway hosting notes
+## Deployment
 
-- Deploy this service to Railway and expose HTTPS at the public Railway URL.
-- Railway handles TLS termination, so clients should call `https://<your-railway-domain>/v1/mcp/tools` and `https://<your-railway-domain>/v1/mcp/execute`.
-- Find your Railway domain in the Railway dashboard under your service's "Domains" tab.
-- Configure all environment variables in Railway service settings.
-- For long-term production scale, replace in-memory limiter with Redis-backed rate limits using a library like `rate-limit-redis`.
+Deploy this service to any Node.js hosting platform (Railway, Vercel, Render, or your own infrastructure).
+
+**Environment variables:**
+Set all required environment variables in your hosting platform's configuration panel.
+
+**TLS/HTTPS:**
+Most hosting platforms handle TLS termination automatically. Configure your domain in the hosting platform's settings.
+
+**Production considerations:**
+- Replace in-memory rate limiter with Redis-backed rate limits for horizontal scaling
+- Replace static API key checks with JWT verification/introspection for OAuth
+- Configure persistent storage for audit logs
+- Set up monitoring and alerting for slow requests and errors
