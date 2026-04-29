@@ -2,44 +2,6 @@
 
 HMRC Fraud Prevention Headers SDK and API for generating, validating, and submitting HMRC-compliant headers.
 
-## Quick start
-
-```bash
-npm install @hmrc-sync/agent-skill
-```
-
-```ts
-import { prepareHmrcRequest, ConnectionMethod } from '@hmrc-sync/agent-skill'
-
-const result = prepareHmrcRequest({
-  method: ConnectionMethod.WEB_APP_VIA_SERVER,
-  clientData: {
-    userAgent: 'Mozilla/5.0',
-    browserJsUserAgent: 'Mozilla/5.0',
-    timezone: 'UTC+00:00',
-    localIPs: ['192.168.1.10'],
-    publicIP: '203.0.113.10',
-    macAddresses: ['00:11:22:33:44:55'],
-    deviceId: '550e8400-e29b-41d4-a716-446655440000'
-  },
-  serverIP: '203.0.113.6',
-  serverPort: 8443,
-  vendorConfig: {
-    productName: 'MyTaxProduct',
-    version: { MyTaxProduct: '1.0.0' }
-  },
-  requestMeta: {
-    executionContext: 'backend',
-    submissionTarget: 'hmrc',
-    integrationType: 'web'
-  },
-  explainMode: true
-})
-
-console.log(result.headers)
-console.log(result.validation)
-```
-
 ## When to use this package vs engine/collector
 
 **Use `@hmrc-sync/agent-skill` when:**
@@ -52,18 +14,6 @@ console.log(result.validation)
 - You need fine-grained control over each step
 - You want to collect client data separately from header generation
 - You're building custom orchestration logic
-
-## Two ways to use this library
-
-**1. SDK (embed in your codebase)**
-- Install the package and use it directly in your Node.js/TypeScript project
-- Full control over execution, runs locally in your app
-- Best for: applications that want to embed the logic
-
-**2. HTTP API (hosted service)**
-- Call the hosted API over HTTPS — no installation required
-- Managed service with auth, rate limiting, and audit logging
-- Best for: partners who want a simple hosted service without installing anything
 
 ---
 
